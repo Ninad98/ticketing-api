@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.ninad.ticketing_api.dto.CreateEventRequest;
 import com.ninad.ticketing_api.exception.EventNotFoundException;
 import com.ninad.ticketing_api.model.Event;
 import com.ninad.ticketing_api.repository.EventRepository;
@@ -24,6 +25,16 @@ public class EventService {
 	public Event findById(Long id) {
 		return repository.findById(id)
 				.orElseThrow(() -> new EventNotFoundException(id));
+	}
+	
+	public Event create(CreateEventRequest request) {
+		Event event = new Event(
+				null,
+				request.name(),
+				request.venue(),
+				request.dateTime(),
+				request.price());
+		return repository.save(event);
 	}
 		
 }
